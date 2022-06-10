@@ -2,14 +2,17 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"time"
 
 	"git.mills.io/prologic/bitcask"
 	"github.com/bmizerany/pat"
 	"github.com/teris-io/shortid"
+	"gopkg.in/ini.v1"
 )
 
 type RequestBody struct {
@@ -70,8 +73,18 @@ func newHandler(db bitcask.Bitcask) http.HandlerFunc {
 }
 
 func main() {
+	// parse config
+	cfg, err := ini.Load("bounce.ini")
+	if err != nil {
+		fmt.Printf("failed to read config: %v", err)
+		os.Exit(1)
+	}
+
+	port := cfg.Section("config").Key("port").String()
+	dbpath := cfg.Section("config").Key("path").String()
+
 	// db setup
-	db, _ := bitcask.Open("/tmp/db")
+	db, _ := bitcask.Open(dbpath)
 	defer db.Close()
 
 	// http setup
@@ -81,7 +94,7 @@ func main() {
 
 	http.Handle("/", m)
 
-	err := http.ListenAndServe(":8080", nil)
+	err = http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}

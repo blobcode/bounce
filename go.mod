@@ -16,4 +16,5 @@ require (
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	golang.org/x/exp v0.0.0-20200228211341-fcea875c7e85 // indirect
 	golang.org/x/sys v0.0.0-20210510120138-977fb7262007 // indirect
+	gopkg.in/ini.v1 v1.66.6 // indirect
 )
