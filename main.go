@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"time"
 
 	"git.mills.io/prologic/bitcask"
 	"github.com/bmizerany/pat"
@@ -62,7 +63,7 @@ func newHandler(db bitcask.Bitcask) http.HandlerFunc {
 			w.WriteHeader(500)
 			w.Write([]byte("500"))
 		} else {
-			db.Put([]byte(id), []byte(site))
+			db.PutWithTTL([]byte(id), []byte(site), 24*time.Hour)
 			w.Write(json)
 		}
 	}
