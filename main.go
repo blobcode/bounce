@@ -17,6 +17,7 @@ type RequestBody struct {
 
 func redirectHandler(db bitcask.Bitcask) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		// query for id
 		id := r.URL.Query().Get(":id")
 		val, _ := db.Get([]byte(id))
 
@@ -30,6 +31,7 @@ func redirectHandler(db bitcask.Bitcask) http.HandlerFunc {
 	}
 }
 
+// handle link creation
 func newHandler(db bitcask.Bitcask) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// init
@@ -70,16 +72,12 @@ func main() {
 	// db setup
 	db, _ := bitcask.Open("/tmp/db")
 	defer db.Close()
-	// test value
-	db.Put([]byte("test"), []byte("https://google.com"))
 
 	// http setup
 	m := pat.New()
 	m.Get("/r/:id", http.HandlerFunc(redirectHandler(*db)))
 	m.Post("/new", http.HandlerFunc(newHandler(*db)))
 
-	// Register this pat with the default serve mux so that other packages
-	// may also be exported. (i.e. /debug/pprof/*)
 	http.Handle("/", m)
 
 	err := http.ListenAndServe(":8080", nil)
