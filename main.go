@@ -8,7 +8,7 @@ import (
 
 	"git.mills.io/prologic/bitcask"
 	"github.com/bmizerany/pat"
-	gonanoid "github.com/matoous/go-nanoid/v2"
+	"github.com/teris-io/shortid"
 )
 
 type RequestBody struct {
@@ -35,7 +35,7 @@ func redirectHandler(db bitcask.Bitcask) http.HandlerFunc {
 func newHandler(db bitcask.Bitcask) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// init
-		id, _ := gonanoid.New()
+		id, _ := shortid.Generate()
 		var b RequestBody
 
 		// decode body
