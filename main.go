@@ -1,8 +1,10 @@
 package main
 
 import (
+	"embed"
 	"encoding/json"
 	"fmt"
+	"io/fs"
 	"log"
 	"net/http"
 	"net/url"
@@ -14,6 +16,10 @@ import (
 	"github.com/teris-io/shortid"
 	"gopkg.in/ini.v1"
 )
+
+// embedded files
+//go:embed static/* templates/*
+var f embed.FS
 
 type RequestBody struct {
 	Url string
@@ -87,10 +93,20 @@ func main() {
 	db, _ := bitcask.Open(dbpath)
 	defer db.Close()
 
+	// static files
+	static, _ := fs.Sub(f, "static")
+	templates, _ := fs.Sub(f, "templates")
+
+	fs := http.FileServer(http.FS(static))
+	tp := http.FileServer(http.FS(templates))
+
 	// http setup
 	m := pat.New()
+
 	m.Get("/r/:id", http.HandlerFunc(redirectHandler(*db)))
-	m.Post("/new", http.HandlerFunc(newHandler(*db)))
+	m.Post("/new/", http.HandlerFunc(newHandler(*db)))
+	m.Get("/", http.StripPrefix("/", tp))
+	m.Get("/static/", http.StripPrefix("/static/", fs))
 
 	http.Handle("/", m)
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <script src="/static/js/script.js"></script>
+    <title>bounce</title>
+  </head>
+  <body>
+    <h2>
+      <b>
+        <span style="font-size: big">bounce</span>
+      </b>
+      <br />
+      <small>link shortener</small>
+    </h2>
+    <p>a free redirect creation service!</p>
+    <br />
+    <input id="input" placeholder="https://example.com" />
+    <button onclick="submit()">shorten!</button>
+    <div class="flex">
+      <p>
+        <span>
+          <pre><a id="result" target="_blank"></a></pre>
+          <button id="copy" class="copy" onclick="copy()">copy</button></span
+        >
+      </p>
+    </div>
+    <p>links created will last for 24 hours</p>
+    <br />
+    <hr />
+    <p>created with ❤️ by <a href="https://blobco.de">blobcode</a></p>
+  </body>
+</html>
