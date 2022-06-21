@@ -6,6 +6,7 @@ require (
 	git.mills.io/prologic/bitcask v1.0.2
 	github.com/bmizerany/pat v0.0.0-20210406213842-e4b6760bdd6f
 	github.com/teris-io/shortid v0.0.0-20201117134242-e59966efd125
+	gopkg.in/ini.v1 v1.66.6
 )
 
 require (
@@ -16,5 +17,4 @@ require (
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	golang.org/x/exp v0.0.0-20200228211341-fcea875c7e85 // indirect
 	golang.org/x/sys v0.0.0-20210510120138-977fb7262007 // indirect
-	gopkg.in/ini.v1 v1.66.6 // indirect
 )
